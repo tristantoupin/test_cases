@@ -1,11 +1,17 @@
 from behave import *
+import test_methods as tm
 
-@given('we have behave installed')
+@given('we have logged in')
 def step_impl(context):
-        pass
+	driver = tm.setup_webdriver()
+	tm.load_heroku(driver)
+	tm.login(driver)
+	context.driver = driver
+	pass
 
-@when('we implement a test')
+@when('we select staff task')
 def step_impl(context):
+	tm.select_task(context.driver, "staff")
 	assert True is not False
 
 @then('behave will test it for us!')
