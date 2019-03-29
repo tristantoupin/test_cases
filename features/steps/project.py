@@ -159,6 +159,44 @@ def step_impl(context):
 @then('the menu item is removed')
 def step_imple(context):
 	assert (tm.check_menu_item_removed(context.driver, context.menu_item))
+	
+@given(u'that I am logged in as a manager')
+def step_impl(context):
+	driver = tm.setup_webdriver()
+	tm.load_heroku(driver)
+	tm.login(driver)
+	context.driver = driver
+	context.task = "manager"
+	tm.select_task(context.driver, context.task)
+	assert True is not False
+
+@when(u'I enter the price of an item {price}')
+def step_impl(context, price):
+	assert (tm.enter_item_price(context.driver, price))
+
+@when(u'I enter the name of an item {name}')
+def step_impl(context, name):
+	assert (tm.enter_item_name(context.driver, name))
+
+@when(u'I enter the description of an item {description}')
+def step_impl(context, description):
+	assert (tm.enter_item_description(context.driver, description))
+	
+@when(u'I enter the inventory of an item {inventory}')
+def step_impl(context, inventory):
+	assert (tm.enter_item_inventory(context.driver, inventory))
+
+@when(u'I enter the tag of an item {tag}')
+def step_impl(context, tag):
+	assert (tm.enter_item_tag(context.driver, tag))
+
+@when(u'submits the item')
+def step_impl(context):
+	assert (tm.submit_item(context.driver))
+
+@then(u'the item with name {name} persists')
+def step_impl(context, name):
+ 	assert (tm.item_persists(context.driver, name))
 
 
 
