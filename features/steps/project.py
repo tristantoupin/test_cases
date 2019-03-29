@@ -1,37 +1,34 @@
 from behave import *
 import test_methods as tm
 
-@given('we have logged in')
+
+@given(u'that I am logged in')
 def step_impl(context):
 	driver = tm.setup_webdriver()
 	tm.load_heroku(driver)
 	tm.login(driver)
 	context.driver = driver
+	print(context.table)
 	pass
 
-@when('we select staff task')
+@when(u'I select the task manager')
 def step_impl(context):
-	tm.select_task(context.driver, "staff")
+	context.task = "manager"
+	tm.select_task(context.driver, context.task)
 	assert True is not False
 
-@when('we select customer task')
+@when(u'I select the task staff')
 def step_impl(context):
-	tm.select_task(context.driver, "customer")
+	context.task = "manager"
+	tm.select_task(context.driver, context.task)
 	assert True is not False
 
-@when('we select manager task')
+@when(u'I select the task customer')
 def step_impl(context):
-	tm.select_task(context.driver, "manager")
+	context.task = "customer"
+	tm.select_task(context.driver, context.task)
 	assert True is not False
 
-@then('we verify we are on staff landing')
+@then(u'the landing page of that task is open')
 def step_impl(context):
-	assert (tm.verify_task_page(context.driver, "staff"))
-
-@then('we verify we are on customer landing')
-def step_impl(context):
-	assert (tm.verify_task_page(context.driver, "customer"))
-
-@then('we verify we are on manager landing')
-def step_impl(context):
-	assert (tm.verify_task_page(context.driver, "manager"))
+	assert (tm.verify_task_page(context.driver, context.task))
