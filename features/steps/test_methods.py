@@ -34,7 +34,7 @@ def select_task(driver, task):
 	else:
 		print("Incorrect Task Selected! [customer, staff, manager]")
 	
-	time.sleep(0.2) # just proof it worked for the human eye
+	time.sleep(1) # just proof it worked for the human eye
 
 
 def verify_task_page(driver, task):
@@ -52,6 +52,70 @@ def verify_task_page(driver, task):
 			return True
 	else:
 		print("Incorrect Task Selected! [customer, staff, manager]")
+
+def select_table(driver):
+	tables = None
+	# wait for tables to be loaded
+	time.sleep(2)
+	table_select = driver.find_element_by_css_selector(".submit-stn")
+	table_select.click()
+
+def select_category(driver):
+	categories = None
+	start_time = time.time()
+	# wait for tables to be loaded
+	while (categories is None or time.time() - start_time > 10000):
+		categories = driver.find_element_by_class_name("internal")
+	category = driver.find_element_by_class_name("internal")[0]
+	category.click()
+	on_page = driver.find_element_by_class_name("back")
+	if on_page:
+		return True
+	else:
+		print("Did not reach the category page!")
+
+def navigate_to_cart(driver):
+	btn_cart = driver.find_element_by_class_name("landing-page-button")[2]
+	btn_cart.click()
+	btn_in_cart = driver.find_element_by_class_name("cart-help-button")[0]
+	if btn_in_cart:
+		return True
+	else:
+		print("Did not reach the cart page!")
+
+def submit_order(driver):
+	btn_cart = driver.find_element_by_css_selector("cart-help-button.fas.fa-cart-arrow-down")[2]
+	btn_cart.click()
+	list_items = driver.find_element_by_class_name("customer-cart-table-rows")[0]
+	if len(list_items) <= 1:
+		return True
+	else:
+		print("Did not submit order!")
+
+def create_order(driver):
+	#TODO
+	pass
+
+def verify_new_order(driver):
+	driver.get("https://ecse428-potatopeeps.herokuapp.com/#/staff")
+	order_numbers = driver.find_element_by_css_selector(".staff-notification")
+	print(order_numbers)
+	print(order_numbers)
+	print(order_numbers)
+	print(order_numbers)
+	print(order_numbers)
+	print(order_numbers)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
