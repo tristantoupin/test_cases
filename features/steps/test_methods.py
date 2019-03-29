@@ -35,5 +35,19 @@ def select_task(driver, task):
 	elif(task == "manager"):
 		tasks[2].click()
 
-	time.sleep(5)
+	time.sleep(3) # just proof it worked for the human eye
 
+
+def verify_task_page(driver, task):
+	task = task.strip().lower()
+	if(task == "customer"):
+		table_select = driver.find_element_by_css_selector(".submit-stn")
+		if(table_select):
+			return True
+	elif(task == "staff"):
+		staff_requests = driver.find_elements_by_css_selector(".staff-nav-btn")
+		if(len(staff_requests) == 2):
+			return True
+	elif(task == "manager"):
+		print("Yeet")
+		return False

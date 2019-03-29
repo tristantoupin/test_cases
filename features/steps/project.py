@@ -14,6 +14,16 @@ def step_impl(context):
 	tm.select_task(context.driver, "staff")
 	assert True is not False
 
-@then('behave will test it for us!')
+@when('we select customer task')
 def step_impl(context):
-	assert context.failed is False
+	tm.select_task(context.driver, "customer")
+	assert True is not False
+
+@then('we verify we are on staff landing')
+def step_impl(context):
+	assert (tm.verify_task_page(context.driver, "staff"))
+
+@then('we verify we are on customer landing')
+def step_impl(context):
+	assert (tm.verify_task_page(context.driver, "customer"))
+
