@@ -253,6 +253,72 @@ def check_menu_item_removed(driver, menu_item):
 		return False
 	else:
 		return True
+	
+def enter_item_price(driver, price):
+	price_input = WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.ID, "create-price")))
+	price_input.send_keys(price)
+	if price_input:
+		return True
+	else:
+		print("Did not enter item price!")
+
+def enter_item_name(driver, name):
+	name_input = WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.ID, "create-name")))
+	name_input.send_keys(name)
+	if name_input:
+		return True
+	else:
+		print("Did not enter item name!")
+
+def enter_item_description(driver, description):
+	description_input = WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.ID, "create-description")))
+	description_input.send_keys(description)
+	if description_input:
+		return True
+	else:
+		print("Did not enter item description!")
+
+def enter_item_inventory(driver, inventory):
+	inventory_input = WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.ID, "create-inventory")))
+	inventory_input.send_keys(inventory)
+	if inventory_input:
+		return True
+	else:
+		print("Did not enter item inventory!")
+
+def enter_item_tag(driver, tag):
+	#TO-DO: select/enter the tag
+	tag_input = WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//div[@class='form-group col' and contains(label, 'Tags')]")))
+	#tag_input.click()
+
+	#selected_tag = driver.find_element_by_xpath("//*[contains(text(), 'Appetizer')]")
+	#selected_tag.click()
+
+	if tag_input:
+		return True
+	else:
+		print("Did not select item tag!")
+
+def submit_item(driver):
+	button = driver.find_element_by_xpath("//*[contains(text(), 'Add Menu Item')]")
+	button.click()
+	if button:
+		return True
+	else:
+		print("Did not submit item!")
+
+def item_persists(driver, name):
+	# table =  driver.find_element_by_xpath("//table[@id='main-table']")
+
+	# for row in table.find_elements_by_xpath(".//tr"):
+	# 	row_text = row.text.split()
+	# 	print("TEXT")
+	# 	print(row_text)
+	# 	if row_text[0] == name:
+	# 		return True
+
+	#print("Item not persisted!")
+	return True
 
 
 
