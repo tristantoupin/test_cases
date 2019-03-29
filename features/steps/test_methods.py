@@ -76,36 +76,52 @@ def verify_task_page(driver, task):
 # 		print("Did not reach the category page!")
 
 def navigate_to_cart(driver):
-	btn_cart = driver.find_element_by_class_name("landing-page-button")[2]
-	btn_cart.click()
-	btn_in_cart = driver.find_element_by_class_name("cart-help-button")[0]
+	back_btn = driver.find_element_by_css_selector(".back")
+	back_btn.click()
+	while(True):
+		try:
+			btn_cart = driver.find_elements_by_class_name("landing-page-button")[2]
+			btn_cart.click()
+			break
+		except Exception as e:
+			continue
+	btn_in_cart = driver.find_elements_by_class_name("cart-help-button")[0]
 	if btn_in_cart:
 		return True
 	else:
 		print("Did not reach the cart page!")
+		return False
 
 def submit_order(driver):
-	btn_cart = driver.find_element_by_css_selector("cart-help-button.fas.fa-cart-arrow-down")[2]
+	btn_cart = driver.find_elements_by_css_selector(".cart-help-button")[2]
 	btn_cart.click()
-	list_items = driver.find_element_by_class_name("customer-cart-table-rows")[0]
-	if len(list_items) <= 1:
-		return True
-	else:
-		print("Did not submit order!")
+	
+	list_items = driver.find_elements_by_class_name("number-input")
+	num_list_items = len(list_items)
+	while(num_list_items >= 1):
+		list_items = driver.find_elements_by_class_name("number-input")
+		num_list_items = len(list_items)
+	return True
+	
 
 def create_order(driver):
-	#TODO
-	pass
+	wait = WebDriverWait(driver, 10)
+	add_item_to_cart_button = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, ".add-to-cart-button")))
+	try:
+		add_item_to_cart_button.click()
+
+		return True
+	except Exception as e:
+		return False
 
 def verify_new_order(driver):
-	driver.get("https://ecse428-potatopeeps.herokuapp.com/#/staff")
-	order_numbers = driver.find_element_by_css_selector(".staff-notification")
-	print(order_numbers)
-	print(order_numbers)
-	print(order_numbers)
-	print(order_numbers)
-	print(order_numbers)
-	print(order_numbers)
+	# driver.get("https://ecse428-potatopeeps.herokuapp.com/#/staff")
+	order_numbers = driver.find_elements_by_css_selector(".staff-notification")[2]
+	num_orders = int(order_numbers.text.split()[1].strip())
+	if(num_orders == 1):
+		return True
+	else:
+		return False
 
 
 def select_table(driver):
@@ -142,8 +158,12 @@ def select_category(driver):
     wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, ".internal")))
     categories = driver.find_elements_by_css_selector(".internal")
     wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, ".internal")))
-    categories[0].click()
-
+    try:
+    	categories[0].click()
+    	return True
+    except Exception as e:
+    	return False
+    
 def select_item(driver):
     wait = WebDriverWait(driver, 10)
     wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, ".overlay")))

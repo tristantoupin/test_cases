@@ -57,6 +57,12 @@ def step_impl(context):
 
 @then(u'the staff receives a new oder')
 def step_impl(context):
+	context.driver.quit()
+	driver = tm.setup_webdriver()
+	context.driver = driver
+	tm.load_heroku(context.driver)
+	tm.login(context.driver)
+	tm.select_task(context.driver, "staff")
 	assert (tm.verify_new_order(context.driver))
 
 @given('that I am logged in as a custumer')
