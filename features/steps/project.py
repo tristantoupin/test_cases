@@ -19,6 +19,11 @@ def step_impl(context):
 	tm.select_task(context.driver, "customer")
 	assert True is not False
 
+@when('we select manager task')
+def step_impl(context):
+	tm.select_task(context.driver, "manager")
+	assert True is not False
+
 @then('we verify we are on staff landing')
 def step_impl(context):
 	assert (tm.verify_task_page(context.driver, "staff"))
@@ -27,3 +32,6 @@ def step_impl(context):
 def step_impl(context):
 	assert (tm.verify_task_page(context.driver, "customer"))
 
+@then('we verify we are on manager landing')
+def step_impl(context):
+	assert (tm.verify_task_page(context.driver, "manager"))

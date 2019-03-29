@@ -34,7 +34,9 @@ def select_task(driver, task):
 		tasks[1].click()
 	elif(task == "manager"):
 		tasks[2].click()
-
+	else:
+		print("Incorrect Task Selected! [customer, staff, manager]")
+	
 	time.sleep(3) # just proof it worked for the human eye
 
 
@@ -49,5 +51,8 @@ def verify_task_page(driver, task):
 		if(len(staff_requests) == 2):
 			return True
 	elif(task == "manager"):
-		print("Yeet")
-		return False
+		manager_button = driver.find_element_by_css_selector(".btn.btn-primary.btn-block.btn.btn-primary")
+		if(manager_button):
+			return True
+	else:
+		print("Incorrect Task Selected! [customer, staff, manager]")
