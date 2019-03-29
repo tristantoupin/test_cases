@@ -223,10 +223,36 @@ def check_status(driver):
     status = ["in progress" ,"served", "ready"]
     # check the status in the browser is in status list
 
+def get_top_menu_item(driver):
+	table_rows = driver.find_elements_by_css_selector("tbody tr")
+	item_values = table_rows[1].find_elements_by_css_selector("td")
+	name = item_values[1].text
+	price = item_values[3].text
+	return [name, price]
 
+def delete_menu_item(driver):
+	top_delete_button = driver.find_element_by_css_selector(".btn.btn-danger")
+	try:
+		top_delete_button.click()
+		time.sleep(3)
+		WebDriverWait(driver, 3).until(ec.alert_is_present())
+		alert = driver.switch_to.alert
+		alert.accept()
+		return True
+	except Exception as e:
+		return False
 
-
-
+def check_menu_item_removed(driver, menu_item):
+	driver.quit()
+	driver = setup_webdriver()
+	load_heroku(driver)
+	login(driver)
+	select_task(driver, "manager")
+	top_item = get_top_menu_item(driver)
+	if(top_item[0] == menu_item[0] and top_item[1] == menu_item[1]):
+		return False
+	else:
+		return True
 
 
 

@@ -151,6 +151,14 @@ def step_impl(context, status):
 def step_impl(context):
     tm.check_status(context.driver)
 
+@when('I select to delete a menu item')
+def step_impl(context):
+	context.menu_item = tm.get_top_menu_item(context.driver)
+	tm.delete_menu_item(context.driver)
+
+@then('the menu item is removed')
+def step_imple(context):
+	assert (tm.check_menu_item_removed(context.driver, context.menu_item))
 
 
 
