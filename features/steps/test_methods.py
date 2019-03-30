@@ -228,13 +228,13 @@ def get_top_menu_item(driver):
 	item_values = table_rows[1].find_elements_by_css_selector("td")
 	name = item_values[1].text
 	price = item_values[3].text
-	return [name, price]
+	quant = item_values[4].text
+	return [name, price, quant]
 
 def delete_menu_item(driver):
 	top_delete_button = driver.find_element_by_css_selector(".btn.btn-danger")
 	try:
 		top_delete_button.click()
-		time.sleep(3)
 		WebDriverWait(driver, 3).until(ec.alert_is_present())
 		alert = driver.switch_to.alert
 		alert.accept()
@@ -320,9 +320,46 @@ def item_persists(driver, name):
 	#print("Item not persisted!")
 	return True
 
+def select_update_item(driver, menu_item):
+	try:
+		update_btn = driver.find_elements_by_css_selector(".btn.btn-warning.btn.btn-primary")[0]
+		update_btn.click()
+		return True
+	except Exception as e:
+		return False
 
+def input_new_quantity(driver, menu_item):
+	try:
+		# inventory_field = driver.find_element_by_css_selector("#update-http://localhost:8080/api/menuItems/1-inventory")
+		inventory_field = driver.find_element_by_xpath("//input[@placeholder='inventory']")
+		inventory_field.clear()
+		inventory_field.send_keys(int(menu_item[2]) * 2)
+		while (True):
+			try:
+				submit_update_btn = driver.find_elements_by_css_selector(".btn.btn-primary")
+				submit_update_btn = submit_update_btn[len(submit_update_btn) - 1]
+				submit_update_btn.click()
+				break
+			except Exception as e:
+				continue
+		time.sleep(3)
+		return menu_item[2] + "" + menu_item[2]
+	except Exception as e:
+		print(e)
+		return False
 
-
+def check_menu_item_quant_updated(driver, menu_item, new_quant):
+	driver.quit()
+	driver = setup_webdriver()
+	load_heroku(driver)
+	login(driver)
+	select_task(driver, "manager")
+	top_item = get_top_menu_item(driver)
+	print(top_item[2], new_quant)
+	if(top_item[0] == menu_item[0] and top_item[1] == menu_item[1] and top_item[2] == new_quant):
+		return False
+	else:
+		return True
 
 
 

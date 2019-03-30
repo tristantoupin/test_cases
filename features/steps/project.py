@@ -198,5 +198,17 @@ def step_impl(context):
 def step_impl(context, name):
  	assert (tm.item_persists(context.driver, name))
 
+@when('I select to update a menu item')
+def step_impl(context):
+	context.top_menu_item = tm.get_top_menu_item(context.driver)
+	assert (tm.select_update_item(context.driver, context.top_menu_item))
+	
+@when('I submit a valid new quantity')
+def step_impl(context):
+	context.new_quant = tm.input_new_quantity(context.driver, context.top_menu_item)
 
+@then('the menu item quantity is changed')
+def step_impl(context):
+	assert (tm.check_menu_item_quant_updated(context.driver, context.top_menu_item, context.new_quant))
+	
 
